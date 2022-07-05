@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 
 const Color bluclr = Color(0xff4e5ae8);
@@ -19,6 +20,30 @@ class Themes{
   );
 static final dark=ThemeData(
   primaryColor: darkheadClr,
-      brightness: Brightness.dark
+      brightness: Brightness.dark,
+  primaryIconTheme:IconThemeData(color: pinkClr)
+
 );
+}
+
+TextStyle get headerStyle{
+  return GoogleFonts.lato(
+     textStyle: TextStyle(
+       fontWeight: FontWeight.bold,
+       fontSize: 25,
+
+     )
+  );
+}
+
+
+
+TextStyle get subHeaderStyle{
+  return GoogleFonts.acme(
+      textStyle: TextStyle(
+        fontWeight: FontWeight.bold,
+        fontSize: 25,
+
+      )
+  );
 }

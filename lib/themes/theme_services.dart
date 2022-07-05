@@ -7,14 +7,15 @@ class  ThemeServices{
 
   final _box = GetStorage();
   final _key = 'isDarkMode';
-  _saveTheme(bool isDarkMode)=>_box.write(_key, isDarkMode);
-  bool _loadThemeFromBox()=>_box.read(_key)??false;
+  saveTheme(bool isDarkMode)=>_box.write(_key, isDarkMode);
+  bool _loadThemeFromBox()=>_box.read(_key) ?? false;
 
-ThemeMode get theme =>_loadThemeFromBox()?ThemeMode.dark:ThemeMode.light;
+ThemeMode get theme =>_loadThemeFromBox() ? ThemeMode.dark:ThemeMode.light;
 
 void switchTheme(){
-  Get.changeThemeMode(_loadThemeFromBox()?ThemeMode.light:ThemeMode.dark);
+  Get.changeThemeMode(_loadThemeFromBox() ? ThemeMode.light:ThemeMode.dark);
   
-  _saveTheme(!_loadThemeFromBox());
+  saveTheme(!_loadThemeFromBox());
+
 }
 }

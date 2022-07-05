@@ -9,7 +9,7 @@ import 'package:to_do_list/themes/theme_services.dart';
 
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
+WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   runApp( MyApp());
 }
@@ -23,13 +23,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      themeMode: ThemeServices().theme,
       title: 'Flutter Demo',
       theme: Themes.light,
       debugShowCheckedModeBanner: false,
       darkTheme: Themes.dark,
-      themeMode: ThemeServices().theme,
 
-      home: mainPage()
+
+      home: MainView()
     );
   }
 }
