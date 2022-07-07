@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 
 const Color bluclr = Color(0xff4e5ae8);
+const Color dateback = Color(0xaa6cbd81);
 const Color yelloClr = Color(0xffffb746);
 const Color pinkClr = Color(0xFFff4667);
 const white = Colors.white;
@@ -15,13 +18,15 @@ const Color darkheadClr = Color(0xFF424242);
 class Themes{
   static final light = ThemeData(
     primaryColor: Colors.blue,
-    brightness: Brightness.light
+    brightness: Brightness.light,
+    cardColor: Colors.blueGrey[900]
 
   );
 static final dark=ThemeData(
   primaryColor: darkheadClr,
       brightness: Brightness.dark,
-  primaryIconTheme:IconThemeData(color: pinkClr)
+  primaryIconTheme:IconThemeData(color: pinkClr),
+
 
 );
 }
@@ -44,6 +49,26 @@ TextStyle get subHeaderStyle{
         fontWeight: FontWeight.bold,
         fontSize: 25,
 
+      )
+  );
+}
+TextStyle get titleStyle{
+  return GoogleFonts.lato(
+    textStyle:TextStyle(
+      fontSize: 17,
+      fontWeight: FontWeight.w800,
+      color: Get.isDarkMode?Colors.white:Colors.black
+    )
+  );
+}
+
+
+TextStyle get subTitleStyle{
+  return GoogleFonts.lato(
+      textStyle:TextStyle(
+          fontSize: 15,
+          fontWeight: FontWeight.w500,
+          color: Get.isDarkMode?Colors.grey[100]:Colors.grey[600]
       )
   );
 }
