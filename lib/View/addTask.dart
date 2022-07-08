@@ -9,6 +9,8 @@ import 'package:to_do_list/themes/theme.dart';
 import 'package:to_do_list/widgets/button.dart';
 import 'package:to_do_list/widgets/input_field.dart';
 
+import '../models/task_model.dart';
+
 
 
 class addTask extends StatefulWidget {
@@ -21,23 +23,23 @@ class addTask extends StatefulWidget {
 class _addTaskState extends State<addTask> {
   final TextEditingController titlecontroller = TextEditingController();
   final TextEditingController descrcontroller = TextEditingController();
-  DateTime selectedDate = DateTime.now();
+  DateTime startDate = DateTime.now();
+  DateTime deadLine = DateTime.now();
   String endTime="9:30 PM";
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
-  int selectedRemind=5;
-  List<int> remindList=[
+  int selectedstep=5;
+  List<int> stepList=[
     5,
   10,
   15,
-  20,
-    25
+
   ];
-  String selectedRepeat="None";
-  List<String> repeatList=[
-    "None",
-    "Daily",
-    "Weekly",
-    "Monthly"
+  String selectedcategory="None";
+  List<String> categoryList=[
+    "DataBase",
+    "BackEnd",
+    "FrontEnd",
+    "Phone App"
   ];
   int selectedcolor=0;
   @override
@@ -54,14 +56,30 @@ class _addTaskState extends State<addTask> {
               SizedBox(height: 10,),
               MyInputField(title: '   Title', hint: '  put title here',controller: titlecontroller,),
               MyInputField(title: '   description', hint: '  put description here',controller: descrcontroller,),
-              MyInputField(title: "Date", hint:"   " + DateFormat.yMd().format(selectedDate),
-              widget: IconButton(
-                onPressed: (){
-                  _getDateFromUser(context);
-                },
-                icon: Icon(Icons.calendar_today_sharp),
-              ),
+              Row(
+                children: [
+                  Expanded(
+                    child: MyInputField(title: "StartDate", hint:"   " + DateFormat.yMd().format(startDate),
+                    widget: IconButton(
+                      onPressed: (){
+                        _getDateFromUser(context);
+                      },
+                      icon: Icon(Icons.calendar_today_sharp),
+                    ),
 
+                    ),
+                  ), Expanded(
+                    child: MyInputField(title: "DeadLine", hint:"   " + DateFormat.yMd().format(deadLine),
+                      widget: IconButton(
+                        onPressed: (){
+                          _getDeadLineFromUser(context);
+                        },
+                        icon: Icon(Icons.calendar_today_sharp),
+                      ),
+
+                    ),
+                  ),
+                ],
               ),
               Row(
                 children: [
@@ -91,13 +109,13 @@ class _addTaskState extends State<addTask> {
                   )
                 ],
               ),
-              MyInputField(title: "Remind", hint: "$selectedRemind minutes early ",
+              MyInputField(title: "Steps", hint: "$selectedstep  ",
               widget: DropdownButton(
                 icon:Icon(Icons.keyboard_arrow_down_sharp,),
                 iconSize: 20,
                 elevation: 4,
                 style: subTitleStyle,
-                items: remindList.map<DropdownMenuItem<String>>((int value){
+                items: stepList.map<DropdownMenuItem<String>>((int value){
                   return DropdownMenuItem<String>(
                     value: value.toString(),
                     child:Text(value.toString()),
@@ -105,20 +123,20 @@ class _addTaskState extends State<addTask> {
                 }).toList(),
                 onChanged:(String? newValue){
                   setState((){
-                    selectedRemind=int.parse(newValue!);
+                    selectedstep=int.parse(newValue!);
                   });
                 } ,
                 ),
 
 
               ),
-              MyInputField(title: "Remind", hint:  selectedRepeat,
+              MyInputField(title: "Category", hint:  selectedcategory,
                 widget: DropdownButton(
                   icon:Icon(Icons.keyboard_arrow_down_sharp,),
                   iconSize: 20,
                   elevation: 4,
                   style: subTitleStyle,
-                  items: repeatList.map<DropdownMenuItem<String>>((String value){
+                  items: categoryList.map<DropdownMenuItem<String>>((String value){
                     return DropdownMenuItem<String>(
                       value: value.toString(),
                       child:Text(value.toString()),
@@ -126,7 +144,7 @@ class _addTaskState extends State<addTask> {
                   }).toList(),
                   onChanged:(String? newValue){
                     setState((){
-                      selectedRepeat=newValue!;
+                      selectedcategory=newValue!;
                     });
                   } ,
                 ),
@@ -158,14 +176,31 @@ class _addTaskState extends State<addTask> {
     );
 
   }
+  _addToDB(){
+    Task(
+        color: selectedcolor,
+        title: titlecontroller.text,
+        category: selectedcategory,
+        deadLine: DateFormat.yMd().format(deadLine),
+        description: descrcontroller.text,
+        endTime: endTime,
+    startDate: DateFormat.yMd().format(startDate),
+      startTime: startTime,
+      steps: selectedstep,
+
+
+    );}
+
   validateDate(){
     if(titlecontroller.text.isNotEmpty&&descrcontroller.text.isNotEmpty){
-      //inject to database
+      _addToDB();
       Get.back();
     }else if (titlecontroller.text.isEmpty&&descrcontroller.text.isEmpty){
       Get.snackbar("Required", "All Fields Are Required"
       ,snackPosition: SnackPosition.BOTTOM,
-        icon: Icon(Icons.warning_amber_sharp,color: Colors.red,)
+        icon: Icon(Icons.warning_amber_sharp,color: Colors.red,),
+        borderRadius: 20,
+      backgroundColor: context.theme.backgroundColor,
       );
     }
   }
@@ -175,10 +210,29 @@ class _addTaskState extends State<addTask> {
 
     if(_pickerDate!=null){
      setState((){
-       selectedDate = _pickerDate;
-       print(selectedDate);
+       startDate = _pickerDate;
+       print(startDate);
 
      });
+
+    }else{
+      print("something went wrong");
+    }
+
+  }
+
+
+
+  _getDeadLineFromUser(BuildContext context)async{
+    DateTime? _DeadLineDate = await showDatePicker(
+        context: context, initialDate: DateTime.now(), firstDate: DateTime(2019), lastDate: DateTime(2050));
+
+    if(_DeadLineDate!=null){
+      setState((){
+        deadLine = _DeadLineDate;
+        print(deadLine);
+
+      });
 
     }else{
       print("something went wrong");

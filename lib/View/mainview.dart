@@ -77,7 +77,9 @@ _appBar(){
 
       }
   ),
-    actions: [CircleAvatar(backgroundImage: AssetImage('images/download.jpg'),),SizedBox(width: 15,)],
+    actions: [GestureDetector(child: CircleAvatar(backgroundImage: AssetImage('images/download.jpg'),),onTap:(){
+      print('y chizi');
+    },),SizedBox(width: 15,)],
 
   );
 }
