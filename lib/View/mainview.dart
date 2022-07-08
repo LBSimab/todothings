@@ -85,23 +85,25 @@ _appBar(){
 }
 
 _addDateBar(BuildContext context){
-  return Container(
-    decoration: BoxDecoration(color: Get.isDarkMode?context.theme.primaryColor:context.theme.primaryColor ,borderRadius: BorderRadius.circular(10)),
-    child: DatePicker(
+  return Center(
+    child: Container(
+      decoration: BoxDecoration(color: Get.isDarkMode?context.theme.primaryColor:context.theme.primaryColor ,borderRadius: BorderRadius.circular(10)),
+      child: DatePicker(
 
-      DateTime.now(),
-      height: 100,
-      width: 80,
-      initialSelectedDate: DateTime.now(),
-      selectionColor: dateback ,
-      selectedTextColor: Get.isDarkMode ?  Colors.white:Colors.black
-      ,
+        DateTime.now(),
+        height: 100,
+        width: 80,
+        initialSelectedDate: DateTime.now(),
+        selectionColor:Get.isDarkMode?dateback:Color(0xA1710345)   ,
+        selectedTextColor: Get.isDarkMode ? Colors.black :Colors.white
+        ,
 
-      dateTextStyle: GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode?Colors.white:Colors.black,fontWeight: FontWeight.bold,fontSize: 25)),
-      dayTextStyle:GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode?Colors.white:Colors.black)) ,
-      monthTextStyle: GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode? Colors.white:Colors.black)),
+        dateTextStyle: GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode?Colors.white:Colors.black,fontWeight: FontWeight.bold,fontSize: 25)),
+        dayTextStyle:GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode?Colors.white:Colors.black)) ,
+        monthTextStyle: GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode? Colors.white:Colors.black)),
+
+      ),
 
     ),
-
   );
 }

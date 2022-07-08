@@ -4,7 +4,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:to_do_list/controllers/addpageController.dart';
 import 'package:to_do_list/themes/theme.dart';
 import 'package:to_do_list/widgets/button.dart';
 import 'package:to_do_list/widgets/input_field.dart';
@@ -28,6 +30,7 @@ class _addTaskState extends State<addTask> {
   String endTime="9:30 PM";
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int selectedstep=5;
+  final  _taskController = Get.put(TaskController());
   List<int> stepList=[
     5,
   10,
@@ -176,20 +179,22 @@ class _addTaskState extends State<addTask> {
     );
 
   }
-  _addToDB(){
-    Task(
-        color: selectedcolor,
+  _addToDB() async {
+ int value =  await _taskController.addTask(
+      task: Task(
         title: titlecontroller.text,
+color: selectedcolor,
         category: selectedcategory,
         deadLine: DateFormat.yMd().format(deadLine),
         description: descrcontroller.text,
         endTime: endTime,
-    startDate: DateFormat.yMd().format(startDate),
-      startTime: startTime,
-      steps: selectedstep,
-
-
-    );}
+        startDate: DateFormat.yMd().format(startDate),
+        startTime: startTime,
+        steps: selectedstep,
+      )
+    );
+ print('my id is '+"$value");
+   }
 
   validateDate(){
     if(titlecontroller.text.isNotEmpty&&descrcontroller.text.isNotEmpty){

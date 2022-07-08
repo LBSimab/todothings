@@ -9,6 +9,7 @@ class Task {
   String? startTime;
   String? endTime;
   int? steps;
+  int? userID;
 Task({
 
  this.id,
@@ -22,6 +23,7 @@ Task({
   this.category,
   this.steps,
 
+
 });
 Task.fromJson(Map<String,dynamic> Json) {
   id=Json['id'];
@@ -34,23 +36,24 @@ Task.fromJson(Map<String,dynamic> Json) {
   endTime=Json['endTime'];
   category=Json['category'];
   steps=Json['steps'];
+  userID=Json['userID'];
 
 
 }
+  Map<String, dynamic> toJson() {
+    final Map<String , dynamic> data = new Map<String , dynamic>();
+    data['id']=this.id;
+    data['title']=this.title;
+    data['description']=this.description;
+    data['color']=this.color;
+    data['deadLine']=this.deadLine;
+    data['startDate']=this.startDate;
+    data['startTime']=this.startTime;
+    data['endTime']=this.endTime;
+    data['category']=this.category;
+    data['steps']=this.steps;
 
-Map<String, dynamic> toJson() {
-  final Map<String , dynamic> data = new Map<String , dynamic>();
-  data['id']=this.id;
-  data['title']=this.title;
-  data['description']=this.description;
-  data['color']=this.color;
-  data['deadLine']=this.deadLine;
-  data['startDate']=this.startDate;
-  data['startTime']=this.startTime;
-  data['endTime']=this.endTime;
-  data['category']=this.category;
-  data['steps']=this.steps;
+    return data;
+  }
+}
 
-  return data;
-}
-}
