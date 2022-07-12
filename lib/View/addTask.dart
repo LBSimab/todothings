@@ -1,6 +1,4 @@
 
-
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
@@ -160,7 +158,8 @@ class _addTaskState extends State<addTask> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                 _colorPallet(),
-                myButton(label: "Create Task", onTap: ()=>validateDate())
+                myButton(label: "Create Task", onTap: (){validateDate();
+                _taskController.getTasks();})
               ]
                 
                 ,)
@@ -185,12 +184,13 @@ class _addTaskState extends State<addTask> {
         title: titlecontroller.text,
 color: selectedcolor,
         category: selectedcategory,
-        deadLine: DateFormat.yMd().format(deadLine),
+        endDate: DateFormat.yMd().format(deadLine),
         description: descrcontroller.text,
         endTime: endTime,
         startDate: DateFormat.yMd().format(startDate),
         startTime: startTime,
         steps: selectedstep,
+        step: 0,
       )
     );
  print('my id is '+"$value");

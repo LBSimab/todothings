@@ -2,42 +2,44 @@ class Task {
   int? id;
   String? title;
   String? description;
-  int? color;
-  String? deadLine;
   String? startDate;
-  String? category;
+  String? endDate;
   String? startTime;
   String? endTime;
   int? steps;
-  int? userID;
+  String? category;
+  int? color;
+  int? step;
+  int? joinedUID;
 Task({
 
  this.id,
   this.title,
   this.description,
-  this.color,
   this.startDate,
-  this.deadLine,
+  this.endDate,
   this.startTime,
   this.endTime,
-  this.category,
   this.steps,
-
+  this.category,
+  this.color,
+  this.step,
+  this.joinedUID,
 
 });
-Task.fromJson(Map<String,dynamic> Json) {
-  id=Json['id'];
-  title=Json['title'];
-  description=Json['description'];
-  color=Json['color'];
-  deadLine=Json['deadLine'];
-  startDate=Json['startDate'];
-  startTime=Json['startTime'];
-  endTime=Json['endTime'];
-  category=Json['category'];
-  steps=Json['steps'];
-  userID=Json['userID'];
-
+Task.fromJson(Map<String,dynamic> json) {
+  id=json['id'];
+  title=json['title'];
+  description=json['description'];
+  endDate=json['deadLine'];
+  startTime=json['startTime'];
+  startDate=json['startDate'];
+  endTime=json['endTime'];
+  steps=json['steps'];
+  category=json['category'];
+  color=json['color'];
+  step=json['step'];
+  joinedUID=json['JoinedUID'];
 
 }
   Map<String, dynamic> toJson() {
@@ -46,12 +48,15 @@ Task.fromJson(Map<String,dynamic> Json) {
     data['title']=this.title;
     data['description']=this.description;
     data['color']=this.color;
-    data['deadLine']=this.deadLine;
+    data['endDate']=this.endDate;
     data['startDate']=this.startDate;
     data['startTime']=this.startTime;
     data['endTime']=this.endTime;
     data['category']=this.category;
     data['steps']=this.steps;
+    data['step']=this.step;
+    data['JoinedUID']=this.joinedUID;
+
 
     return data;
   }

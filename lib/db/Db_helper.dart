@@ -16,11 +16,11 @@ class DBHelper {
           "CREATE TABLE $_tableName("
               "ID INTEGER PRIMARY KEY AUTOINCREMENT, "
               "title STRING , description TEXT,"
-              "startDate STRING , endDate STRING"
+              "startDate STRING , endDate STRING,"
               "startTime STRING,endTime STRING,"
               "steps INTEGER , category STRING,"
-              "color INTEGER,step INTEGER"
-              "JoinedUID INTEGER ",
+              "color INTEGER,step INTEGER,"
+              "JoinedUID INTEGER )",
         );
 
 
@@ -37,6 +37,11 @@ class DBHelper {
   static Future<int> insert(Task task)async{
     print("insert Called");
     return await _db?.insert(_tableName, task.toJson())??1;
+
+  }
+  static Future<List<Map<String , dynamic>>> query() async{
+    print('query called');
+    return await _db!.query(_tableName);
 
   }
 

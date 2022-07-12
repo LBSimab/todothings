@@ -1,19 +1,32 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
+
 import 'package:intl/intl.dart';
 import 'package:to_do_list/View/addTask.dart';
+import 'package:to_do_list/controllers/addpageController.dart';
 import 'package:to_do_list/controllers/mainController.dart';
 import 'package:to_do_list/themes/theme.dart';
 import 'package:get/get.dart';
 import 'package:to_do_list/widgets/button.dart';
+import 'package:to_do_list/widgets/task_tile.dart';
 
 import '../themes/theme_services.dart';
 
-class MainView extends StatelessWidget {
+class MainView extends StatefulWidget {
 
+
+
+  @override
+  State<MainView> createState() => _MainViewState();
+}
+
+class _MainViewState extends State<MainView> {
+    final _taskController = Get.put(TaskController());
 double progressValue = 0.5;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,7 +36,8 @@ double progressValue = 0.5;
           _addTaskbar(),
           SizedBox(height: 10,),
           _addDateBar(context),
-SizedBox(height: 10 ,),
+          _showTask(context),
+
 
 
 
@@ -34,6 +48,30 @@ SizedBox(height: 10 ,),
 
 
   }
+
+    _showTask(BuildContext context){
+      return Expanded(
+        child: Obx((){
+          return ListView.builder(
+              itemCount: _taskController.taskList.length,
+
+              itemBuilder: (_,index){
+                print(_taskController.taskList.length);
+                return Row(
+                  children: [
+                    GestureDetector(
+                      onTap: (){},
+                      child: TaskTile(_taskController.taskList[index]),
+                    )
+                  ],
+                );
+              }
+
+
+          );
+        }),
+      );
+    }
 }
 
 _addTaskbar(){
@@ -107,3 +145,5 @@ _addDateBar(BuildContext context){
     ),
   );
 }
+
+
