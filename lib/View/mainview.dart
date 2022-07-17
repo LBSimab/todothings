@@ -1,16 +1,22 @@
 import 'package:date_picker_timeline/date_picker_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:intl/intl.dart';
 import 'package:to_do_list/View/addTask.dart';
-import 'package:to_do_list/controllers/addpageController.dart';
+import 'package:to_do_list/View/completedTask.dart';
+import 'package:to_do_list/View/manage.dart';
+import 'package:to_do_list/View/profile.dart';
+import 'package:to_do_list/View/taskList.dart';
+
 import 'package:to_do_list/controllers/mainController.dart';
 import 'package:to_do_list/themes/theme.dart';
 import 'package:get/get.dart';
-import 'package:to_do_list/widgets/button.dart';
+
+import 'package:to_do_list/widgets/mainButton.dart';
 import 'package:to_do_list/widgets/task_tile.dart';
 
 import '../themes/theme_services.dart';
@@ -24,126 +30,99 @@ class MainView extends StatefulWidget {
 }
 
 class _MainViewState extends State<MainView> {
-    final _taskController = Get.put(TaskController());
-double progressValue = 0.5;
+  final _mainController = Get.put(MainController());
+
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar:_appBar(),
-      body:Column(
-        children: [
-          _addTaskbar(),
-          SizedBox(height: 10,),
-          _addDateBar(context),
-          _showTask(context),
+    _appBar() {
+      return AppBar(elevation: 0, leading: GestureDetector(
+          child: Icon(
+              Get.isDarkMode ? Icons.wb_sunny_sharp : Icons.nightlight_round,
+              color: Get.isDarkMode ? Colors.yellow : Colors.white),
+          onTap: () {
+            ThemeServices().switchTheme();
+            _mainController.getTasks();
+          }
+      ),
+        actions: [
+          GestureDetector(child: CircleAvatar(
+            backgroundImage: AssetImage('images/download.jpg'),), onTap: () {
+            _mainController.ChangeTabIndex(3);
 
-
-
-
+          },),
+          SizedBox(width: 15,)
         ],
-      ) ,
-    );
 
-
-
-  }
-
-    _showTask(BuildContext context){
-      return Expanded(
-        child: Obx((){
-          return ListView.builder(
-              itemCount: _taskController.taskList.length,
-
-              itemBuilder: (_,index){
-                print(_taskController.taskList.length);
-                return Row(
-                  children: [
-                    GestureDetector(
-                      onTap: (){},
-                      child: TaskTile(_taskController.taskList[index]),
-                    )
-                  ],
-                );
-              }
-
-
-          );
-        }),
       );
-    }
-}
+    };
+    return Scaffold(
+      appBar: _appBar(),
+      body: Obx(()=>
+         IndexedStack(
+          index: _mainController.tabIndex.toInt(),
+          children: [
+            taskList(),
+            ManageView(),
+            CompletedView(),
+            ProfileView()
 
-_addTaskbar(){
-  return Container(
-    padding: const EdgeInsets.only(left:30,right:30),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
+          ],
 
-          child: Column(
-
-
-            crossAxisAlignment: CrossAxisAlignment.start
-
-            ,children: [
-            Text(DateFormat.yMMMMd().format(DateTime.now()),
-              style: headerStyle,
-
-            ),
-            SizedBox(height: 15),
-            Text('Today',style: subHeaderStyle,)
-
-          ],),
         ),
-        myButton(label: "+ AddTask", onTap: ()=>Get.to(addTask())),
-
-      ],
-    ),
-  );
-}
+      ),
+      floatingActionButton: mainButton(
+        label: "Tasks", onLong: () => Get.to(addTask()),),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
 
 
-_appBar(){
-  return  AppBar(elevation: 0,leading: GestureDetector(
-      child: Icon(Get.isDarkMode ? Icons.wb_sunny_sharp:Icons.nightlight_round,
-          color:Get.isDarkMode ? Colors.yellow:Colors.white  ),
-      onTap:(){
-        ThemeServices().switchTheme();
+      bottomNavigationBar:
+      Obx(
+            () =>
+            BottomAppBar(shape: CircularNotchedRectangle(),
+              color: context.theme.backgroundColor,
 
 
-      }
-  ),
-    actions: [GestureDetector(child: CircleAvatar(backgroundImage: AssetImage('images/download.jpg'),),onTap:(){
-      print('y chizi');
-    },),SizedBox(width: 15,)],
+              notchMargin: 5,
+              child: Container(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      MaterialButton(
+                          child: Icon(Icons.list_alt_outlined),
+                          minWidth: 50,
+                          color: _mainController.tabIndex == 2 ? context.theme
+                              .primaryColor : context.theme.disabledColor,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          onPressed: () {
+                            _mainController.ChangeTabIndex(2);
+                          }),
 
-  );
-}
+                      MaterialButton(
+                        child: Icon(Icons.manage_accounts, size: 40,),
+                        minWidth: 50,
+                        onPressed: () {
+                          _mainController.ChangeTabIndex(1);
+                        },
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10)),
+                        color: _mainController.tabIndex == 1 ? context.theme
+                            .primaryColor : context.theme.disabledColor,)
+                    ],
 
-_addDateBar(BuildContext context){
-  return Center(
-    child: Container(
-      decoration: BoxDecoration(color: Get.isDarkMode?context.theme.primaryColor:context.theme.primaryColor ,borderRadius: BorderRadius.circular(10)),
-      child: DatePicker(
+                  ),
+                ),
 
-        DateTime.now(),
-        height: 100,
-        width: 80,
-        initialSelectedDate: DateTime.now(),
-        selectionColor:Get.isDarkMode?dateback:Color(0xA1710345)   ,
-        selectedTextColor: Get.isDarkMode ? Colors.black :Colors.white
-        ,
 
-        dateTextStyle: GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode?Colors.white:Colors.black,fontWeight: FontWeight.bold,fontSize: 25)),
-        dayTextStyle:GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode?Colors.white:Colors.black)) ,
-        monthTextStyle: GoogleFonts.lato(textStyle: TextStyle(color: Get.isDarkMode? Colors.white:Colors.black)),
-
+              ),
+            ),
       ),
 
-    ),
-  );
+
+    );
+  }
 }
-
-

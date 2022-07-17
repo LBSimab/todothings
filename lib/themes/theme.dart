@@ -72,3 +72,31 @@ TextStyle get subTitleStyle{
       )
   );
 }
+
+
+TextStyle get descriptionStyle{
+  return GoogleFonts.lato(
+      textStyle:TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w800,
+          color: Get.isDarkMode?Colors.white:Colors.black,
+          letterSpacing: 1,
+        wordSpacing: 1,
+      )
+  );
+
+
+
+}
+
+
+TextStyle get bottomnavigationStyle{
+  return GoogleFonts.lato(
+      textStyle:TextStyle(
+        fontSize: 15,
+fontWeight: FontWeight.bold,
+        color: Get.isDarkMode?Colors.white:Colors.black,
+        letterSpacing: 1,
+        wordSpacing: 1,
+      )
+  );}

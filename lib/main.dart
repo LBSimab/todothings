@@ -11,6 +11,7 @@ import 'package:to_do_list/themes/theme_services.dart';
 
 Future<void> main() async {
 WidgetsFlutterBinding.ensureInitialized();
+
 DBHelper.initD();
   await GetStorage.init();
   runApp( MyApp());

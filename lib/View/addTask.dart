@@ -24,7 +24,7 @@ class _addTaskState extends State<addTask> {
   final TextEditingController titlecontroller = TextEditingController();
   final TextEditingController descrcontroller = TextEditingController();
   DateTime startDate = DateTime.now();
-  DateTime deadLine = DateTime.now();
+  DateTime endDate = DateTime.now();
   String endTime="9:30 PM";
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int selectedstep=5;
@@ -70,7 +70,7 @@ class _addTaskState extends State<addTask> {
 
                     ),
                   ), Expanded(
-                    child: MyInputField(title: "DeadLine", hint:"   " + DateFormat.yMd().format(deadLine),
+                    child: MyInputField(title: "DeadLine", hint:"   " + DateFormat.yMd().format(endDate),
                       widget: IconButton(
                         onPressed: (){
                           _getDeadLineFromUser(context);
@@ -159,7 +159,7 @@ class _addTaskState extends State<addTask> {
                 children: [
                 _colorPallet(),
                 myButton(label: "Create Task", onTap: (){validateDate();
-                _taskController.getTasks();})
+               })
               ]
                 
                 ,)
@@ -184,7 +184,7 @@ class _addTaskState extends State<addTask> {
         title: titlecontroller.text,
 color: selectedcolor,
         category: selectedcategory,
-        endDate: DateFormat.yMd().format(deadLine),
+        endDate: DateFormat.yMd().format(endDate),
         description: descrcontroller.text,
         endTime: endTime,
         startDate: DateFormat.yMd().format(startDate),
@@ -194,6 +194,7 @@ color: selectedcolor,
       )
     );
  print('my id is '+"$value");
+ print(endDate.toString());
    }
 
   validateDate(){
@@ -234,8 +235,8 @@ color: selectedcolor,
 
     if(_DeadLineDate!=null){
       setState((){
-        deadLine = _DeadLineDate;
-        print(deadLine);
+        endDate = _DeadLineDate;
+        print(endDate);
 
       });
 
