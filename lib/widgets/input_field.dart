@@ -38,7 +38,7 @@ class MyInputField extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide(
                           color:context.theme.backgroundColor,
-                          width:8,
+                          width:5,
 
                   ),
 

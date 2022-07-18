@@ -12,7 +12,7 @@ import '../models/task_model.dart';
   }
 
 var taskList = <Task>[].obs;
-var tabIndex = 0.obs;
+var tabIndex = 3.obs;
  void ChangeTabIndex(int index){
   tabIndex.value=index;
 

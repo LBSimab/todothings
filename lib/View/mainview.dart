@@ -92,8 +92,9 @@ class _MainViewState extends State<MainView> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       MaterialButton(
-                          child: Icon(Icons.list_alt_outlined),
+                          child: Icon(Icons.list_alt_outlined,size:35,),
                           minWidth: 50,
+                          height: 40,
                           color: _mainController.tabIndex == 2 ? context.theme
                               .primaryColor : context.theme.disabledColor,
                           shape: RoundedRectangleBorder(
@@ -103,8 +104,10 @@ class _MainViewState extends State<MainView> {
                           }),
 
                       MaterialButton(
-                        child: Icon(Icons.manage_accounts, size: 40,),
+                        child: Icon(Icons.manage_accounts, size: 35,),
+                        height: 40,
                         minWidth: 50,
+
                         onPressed: () {
                           _mainController.ChangeTabIndex(1);
                         },
