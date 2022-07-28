@@ -7,10 +7,12 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'package:intl/intl.dart';
 import 'package:to_do_list/View/addTask.dart';
-import 'package:to_do_list/View/completedTask.dart';
+
 import 'package:to_do_list/View/manage.dart';
 import 'package:to_do_list/View/profile.dart';
+import 'package:to_do_list/View/searchView.dart';
 import 'package:to_do_list/View/taskList.dart';
+
 
 import 'package:to_do_list/controllers/mainController.dart';
 import 'package:to_do_list/themes/theme.dart';
@@ -32,7 +34,6 @@ class MainView extends StatefulWidget {
 class _MainViewState extends State<MainView> {
   final _mainController = Get.put(MainController());
 
-
   @override
   Widget build(BuildContext context) {
     _appBar() {
@@ -43,6 +44,7 @@ class _MainViewState extends State<MainView> {
           onTap: () {
             ThemeServices().switchTheme();
             _mainController.getTasks();
+
           }
       ),
         actions: [
@@ -64,7 +66,7 @@ class _MainViewState extends State<MainView> {
           children: [
             taskList(),
             ManageView(),
-            CompletedView(),
+            searchView(),
             ProfileView()
 
           ],

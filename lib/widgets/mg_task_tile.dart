@@ -11,14 +11,14 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../models/task_model.dart';
 import '../themes/theme.dart';
-class TaskTile extends StatelessWidget {
+class mgTaskTile extends StatelessWidget {
   final Task? task;
-  TaskTile(this.task);
+  mgTaskTile(this.task);
 
   @override
   Widget build(BuildContext context) {
     return
-       Container(
+      Container(
         padding:
         EdgeInsets.symmetric(horizontal: 20),
         width: MediaQuery.of(context).size.width,
@@ -98,9 +98,9 @@ class TaskTile extends StatelessWidget {
                 ],
               ),
             ),
-Text(task!.category.toString(),style: TextStyle(decoration: TextDecoration.underline,color: Get.isDarkMode? Colors.black:Colors.grey[100]),),
-          SizedBox(width: 40,),
-           CircularPercentIndicator(lineWidth: 6,curve: Curves.elasticIn,radius: 30  ,progressColor: Colors.cyan,percent: 0.1 ,backgroundColor: Get.isDarkMode?Colors.indigo:Colors.blueGrey.shade400,)
+            Text(task!.category.toString(),style: TextStyle(decoration: TextDecoration.underline,color: Get.isDarkMode? Colors.black:Colors.grey[100]),),
+            SizedBox(width: 40,),
+            CircularPercentIndicator(lineWidth: 6,curve: Curves.elasticIn,radius: 30  ,progressColor: Colors.cyan,percent: 0.1 ,backgroundColor: Get.isDarkMode?Colors.indigo:Colors.blueGrey.shade400,)
 
 
 
@@ -122,20 +122,20 @@ Text(task!.category.toString(),style: TextStyle(decoration: TextDecoration.under
         return bluclr;
     }
   }
-  
-  
-  
+
+
+
 }_showBottomSheet(BuildContext context,Task task,Color bgcolor){
   Get.bottomSheet(exitBottomSheetDuration: Duration(seconds: 3) ,Container(
     padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
     height:MediaQuery.of(context).size.height*0.20,
 
-   decoration: BoxDecoration(
-       color: context.theme.backgroundColor,
+    decoration: BoxDecoration(
+        color: context.theme.backgroundColor,
         borderRadius: BorderRadius.circular(20)
 
 
-   ),
+    ),
     child:
 
 
@@ -148,18 +148,18 @@ Text(task!.category.toString(),style: TextStyle(decoration: TextDecoration.under
 
             color: Get.isDarkMode?Colors.blueGrey:Colors.white,
             borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: bgcolor,width: 5)
+            border: Border.all(color: bgcolor,width: 5)
         ),
         child:
-           Center(
-            child: Text(
-              task!.description.toString(),
-              style: descriptionStyle,
-            ),
+        Center(
+          child: Text(
+            task!.description.toString(),
+            style: descriptionStyle,
           ),
         ),
       ),
     ),
+  ),
 
   );
 }
