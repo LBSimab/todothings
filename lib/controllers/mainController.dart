@@ -20,7 +20,7 @@ import '../models/task_model.dart';
   }
 
     var taskList = <Task>[].obs;
-
+  var searchlist=<Task>[].obs;
 var tabIndex = 0.obs;
  void ChangeTabIndex(int index){
   tabIndex.value=index;
@@ -43,5 +43,18 @@ var tabIndex = 0.obs;
       List<Map<String,dynamic>> tasks = await DBHelper.query();
       taskList.assignAll(tasks.map((data) => new Task.fromJson(data)).toList());
     }
+filtertask(String name){
+   List<Task> results=[];
+   if(name.isNotEmpty){results = taskList.where((element) => element.title!.toLowerCase().contains(name.toLowerCase())).toList();
 
+
+   }
+    else{
+
+     results=taskList.value;
+   }
+
+    print(results.map((e) => e.category));
+   searchlist.value=results;
+}
 }

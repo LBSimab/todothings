@@ -28,6 +28,10 @@ final TextEditingController searchedtitle=TextEditingController();
             margin:EdgeInsets.all(6) ,
 
             child: TextField(
+              onChanged: (value){
+                _maincontroller.filtertask(value);
+                print(value);
+              } ,
               controller: searchedtitle,
               decoration: InputDecoration(
                 prefixIcon: Icon(Icons.search),
@@ -59,10 +63,10 @@ final TextEditingController searchedtitle=TextEditingController();
     return Expanded(
       child:
          ListView.builder(
-            itemCount: _maincontroller.taskList.length,
+            itemCount: _maincontroller.searchlist.length,
 
             itemBuilder: (_,index){
-              print(_maincontroller.taskList.length);
+              print(_maincontroller.searchlist.length);
               return  AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -74,7 +78,7 @@ final TextEditingController searchedtitle=TextEditingController();
                           onTap: (){
                             print(index.toString()   + "Tapped");
                           },
-                          child: mgTaskTile(_maincontroller.taskList[index]),
+                          child: mgTaskTile(_maincontroller.searchlist[index]),
                         )
                       ],
                     ),

@@ -30,6 +30,7 @@ class mainButton extends StatelessWidget {
       color: Get.isDarkMode?(_mainController.tabIndex.value==0?context.theme.primaryColor:Colors.grey):(_mainController.tabIndex.value==0?context.theme.primaryColor:Colors.blueGrey[600]),
             onPressed: (){
           _mainController.ChangeTabIndex(0);
+
             },
           onLongPress: onLong,
           shape:CircleBorder(),
