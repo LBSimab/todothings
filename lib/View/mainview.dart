@@ -44,6 +44,7 @@ class _MainViewState extends State<MainView> {
           onTap: () {
             ThemeServices().switchTheme();
             _mainController.getTasks();
+            _mainController.getUsers();
 
           }
       ),

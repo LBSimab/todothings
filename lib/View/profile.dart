@@ -68,7 +68,7 @@ final _taskController = Get.put(TaskController());
               children: [
                 Expanded(child: MyInputField(title: 'commits', hint: ' this a track of commits',controller: commitscontroller,)),
                 SizedBox(width: 7,),
-                Expanded(child: MyInputField(title: '   Alias', hint: '  put your Alternate Name here',controller: joindatecontroller,),)
+                Expanded(child: MyInputField(title: 'joine date', hint: 'put the date that you joined us  ',controller: joindatecontroller,),)
 
               ],
             ),

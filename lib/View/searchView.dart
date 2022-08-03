@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:to_do_list/View/AddUser.dart';
 import 'package:to_do_list/View/taskList.dart';
 
 import 'package:to_do_list/controllers/mainController.dart';
@@ -7,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:to_do_list/themes/theme.dart';
 
 
+import '../widgets/button.dart';
 import '../widgets/mg_task_tile.dart';
 class searchView extends StatefulWidget {
   const searchView({Key? key}) : super(key: key);
@@ -51,6 +53,8 @@ final TextEditingController searchedtitle=TextEditingController();
           SizedBox(height: 3,),
 
           Obx(()=>_showTask(context)),
+
+
 
 
 

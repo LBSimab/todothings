@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 
 import '../db/Db_helper.dart';
 import '../models/task_model.dart';
+import '../models/user_model.dart';
 
   class MainController extends GetxController{
     @override
@@ -9,6 +10,7 @@ import '../models/task_model.dart';
 
       super.onInit();
       getTasks();
+      getUsers();
 
 
     }
@@ -18,10 +20,10 @@ import '../models/task_model.dart';
     update(taskList);
 
   }
-
+var userList = <User>[].obs;
     var taskList = <Task>[].obs;
   var searchlist=<Task>[].obs;
-var tabIndex = 0.obs;
+var tabIndex = 3.obs;
  void ChangeTabIndex(int index){
   tabIndex.value=index;
 
@@ -39,9 +41,9 @@ var tabIndex = 0.obs;
   taskList.assignAll(tasks.map((data) => new Task.fromJson(data)).toList());
 }
 
-    initsearchval() async {
-      List<Map<String,dynamic>> tasks = await DBHelper.query();
-      taskList.assignAll(tasks.map((data) => new Task.fromJson(data)).toList());
+    getUsers() async {
+      List<Map<String,dynamic>> userz = await DBHelper.userquery();
+      userList.assignAll(userz.map((data) => new User.fromJson(data)).toList());
     }
 filtertask(String name){
    List<Task> results=[];
@@ -51,7 +53,7 @@ filtertask(String name){
    }
     else{
 
-     results=taskList.value;
+     results=[];
    }
 
     print(results.map((e) => e.category));
