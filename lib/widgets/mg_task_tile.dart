@@ -5,15 +5,63 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
+import 'package:to_do_list/widgets/updateInputField.dart';
 
 
 
+import '../controllers/addpageController.dart';
+import '../controllers/mainController.dart';
 import '../models/task_model.dart';
+import '../models/user_model.dart';
 import '../themes/theme.dart';
-class mgTaskTile extends StatelessWidget {
+import 'button.dart';
+import 'input_field.dart';
+class mgTaskTile extends StatefulWidget {
   final Task? task;
   mgTaskTile(this.task);
+
+  @override
+  State<mgTaskTile> createState() => _mgTaskTileState();
+}
+
+class _mgTaskTileState extends State<mgTaskTile> {
+  final TextEditingController titlecontroller = TextEditingController();
+
+  final TextEditingController descrcontroller = TextEditingController();
+
+  DateTime startDate = DateTime.now();
+
+  DateTime endDate = DateTime.now();
+
+  String endTime="9:30 PM";
+
+  String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
+
+  int selectedstep=5;
+
+  final  _taskController = Get.put(TaskController());
+
+  final  mainController = Get.put(MainController());
+
+  List<int> stepList=[
+    5,
+    10,
+    15,
+
+  ];
+
+  String selectedcategory="None";
+
+  List<String> categoryList=[
+    "DataBase",
+    "BackEnd",
+    "FrontEnd",
+    "Phone App"
+  ];
+
+  int selectedcolor=0;
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +76,7 @@ class mgTaskTile extends StatelessWidget {
           //  width: SizeConfig.screenWidth * 0.78,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
-            color: _getBGClr(task?.color??0),
+            color: _getBGClr(widget.task?.color??0),
           ),
           child: Row(children: [
             Expanded(
@@ -36,7 +84,7 @@ class mgTaskTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    task?.title??"",
+                    widget.task?.title??"",
                     style: GoogleFonts.lato(
                       textStyle: TextStyle(
                           fontSize: 19,
@@ -56,7 +104,7 @@ class mgTaskTile extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        "${task!.startTime} - ${task!.endTime}",
+                        "${widget.task!.startTime} - ${widget.task!.endTime}",
                         style: GoogleFonts.lato(
                           textStyle:
                           TextStyle(fontSize: 15, color:Get.isDarkMode? Colors.black:Colors.grey[100]),
@@ -75,7 +123,7 @@ class mgTaskTile extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Text(
-                        "${task!.startDate} - ${task!.endDate}",
+                        "${widget.task!.startDate} - ${widget.task!.endDate}",
                         style: GoogleFonts.lato(
                           textStyle:
                           TextStyle(fontSize: 15, color: Get.isDarkMode? Colors.black:Colors.grey[100]),
@@ -86,7 +134,7 @@ class mgTaskTile extends StatelessWidget {
                   SizedBox(height: 12),
                   GestureDetector(
                     onTap: (){
-                      _showBottomSheet(context,task!,_getBGClr(task?.color??0));
+                      _showBottomSheet(context,widget.task!,_getBGClr(widget.task?.color??0),);
                     },
                     child: Text(
                       "description",
@@ -98,7 +146,7 @@ class mgTaskTile extends StatelessWidget {
                 ],
               ),
             ),
-            Text(task!.category.toString(),style: TextStyle(decoration: TextDecoration.underline,color: Get.isDarkMode? Colors.black:Colors.grey[100]),),
+            Text(widget.task!.category.toString(),style: TextStyle(decoration: TextDecoration.underline,color: Get.isDarkMode? Colors.black:Colors.grey[100]),),
             SizedBox(width: 40,),
             CircularPercentIndicator(lineWidth: 6,curve: Curves.elasticIn,radius: 30  ,progressColor: Colors.cyan,percent: 0.1 ,backgroundColor: Get.isDarkMode?Colors.indigo:Colors.blueGrey.shade400,)
 
@@ -123,43 +171,146 @@ class mgTaskTile extends StatelessWidget {
     }
   }
 
+  _showBottomSheet(BuildContext context,Task task,Color bgcolor,){
+
+    Get.bottomSheet(
 
 
-}_showBottomSheet(BuildContext context,Task task,Color bgcolor){
-  Get.bottomSheet(exitBottomSheetDuration: Duration(seconds: 3) ,Container(
-    padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
-    height:MediaQuery.of(context).size.height*0.20,
-
-    decoration: BoxDecoration(
-        color: context.theme.backgroundColor,
-        borderRadius: BorderRadius.circular(20)
 
 
-    ),
-    child:
+      persistent: false,
+      exitBottomSheetDuration: Duration(milliseconds: 300) ,
+           Container(
+        padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
+        height:MediaQuery.of(context).size.height*0.95,
 
-
-    Center(
-
-      child: Container(
-        height: 100,
-        width: 350  ,
         decoration: BoxDecoration(
+            color: context.theme.backgroundColor,
+            borderRadius: BorderRadius.circular(20)
 
-            color: Get.isDarkMode?Colors.blueGrey:Colors.white,
-            borderRadius: BorderRadius.circular(15),
-            border: Border.all(color: bgcolor,width: 5)
+
         ),
         child:
-        Center(
-          child: Text(
-            task!.description.toString(),
-            style: descriptionStyle,
+
+
+        Container(
+          padding: const EdgeInsets.only(left:20,right:20),
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(bottom: 3),
+            child: Column(
+              children: [
+                Text('Add Task',style: headerStyle,),
+                SizedBox(height: 10,),
+                MyInputField(title: '   Title', hint: '  put title here',controller: titlecontroller,),
+                MyInputField(title: '   description', hint: '  put description here',controller: descrcontroller,),
+
+
+                MyInputField(title: "Steps", hint: "$selectedstep  ",
+                  widget: DropdownButton(
+                    icon:Icon(Icons.keyboard_arrow_down_sharp,),
+                    iconSize: 20,
+                    elevation: 4,
+                    style: subTitleStyle,
+                    items: stepList.map<DropdownMenuItem<String>>((int value){
+                      return DropdownMenuItem<String>(
+                        value: value.toString(),
+                        child:Text(value.toString()),
+                      );
+                    }).toList(),
+                    onChanged:(String? newValue){
+                      setState((){
+                        selectedstep=int.parse(newValue!);
+                      });
+                    } ,
+                  ),
+
+
+                ),
+                MyInputField(title: "Category", hint:  selectedcategory,
+                  widget: DropdownButton(
+                    icon:Icon(Icons.keyboard_arrow_down_sharp,),
+                    iconSize: 20,
+                    elevation: 4,
+                    style: subTitleStyle,
+                    items: categoryList.map<DropdownMenuItem<String>>((String value){
+                      return DropdownMenuItem<String>(
+                        value: value.toString(),
+                        child:Text(value.toString()),
+                      );
+                    }).toList(),
+                    onChanged:(String? newValue){
+                      setState((){
+                        selectedcategory=newValue!;
+                      });
+                    } ,
+                  ),
+
+
+                ),
+                SizedBox(height: 10,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    myButton(label: "Delete", onTap:(){ mainController.DeleteTask(task);mainController.getTasks();Get.back();}),
+                    myButton(label: "Update Task", onTap: (){validateDate(task);
+                    ;mainController.getTasks();Get.back();mainController.update(mainController.searchlist);})
+                  ]
+
+                  ,)
+
+
+
+
+              ]
+
+
+              ,
+
+            ),
           ),
         ),
-      ),
     ),
-  ),
 
-  );
+
+    );
+
+
+
+  }
+  _addToDB(Task task) async {
+    int value =  await mainController.UpdateTask(
+         Task(
+          title: titlecontroller.text,
+          color: task.color ,
+          category: task.category,
+          endDate: task.endDate,
+          description: descrcontroller.text,
+          endTime: task.endTime,
+          startDate: task.startDate,
+          startTime: task.startTime,
+          steps: selectedstep,
+          step: 0,
+          id: task.id
+        )
+    );
+    print('my id is '+"$value");
+    print(endDate.toString());
+  }
+
+  validateDate(Task task){
+    if(titlecontroller.text.isNotEmpty&&descrcontroller.text.isNotEmpty){
+      _addToDB(task);
+      Get.back();
+      mainController.getTasks();
+
+    }else if (titlecontroller.text.isEmpty&&descrcontroller.text.isEmpty){
+      Get.snackbar("Required", "All Fields Are Required"
+        ,snackPosition: SnackPosition.BOTTOM,
+        icon: Icon(Icons.warning_amber_sharp,color: Colors.red,),
+        borderRadius: 20,
+        backgroundColor: context.theme.backgroundColor,
+      );
+    }
+  }
 }

@@ -49,6 +49,8 @@ final _maincontroller = Get.put(MainController());
                       children: [
                         GestureDetector(
                           onTap: (){
+
+                            _maincontroller.getUsers();
                             print(index.toString()   + "Tapped");
                           },
                           child: userTile(_maincontroller.userList[index]),

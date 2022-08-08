@@ -22,7 +22,7 @@ class User {
 
   });
   User.fromJson(Map<String,dynamic> json) {
-    id=json['id'];
+    id=json['ID'];
     name=json['name'];
     alias=json['alias'];
     commits=json['commits'];
@@ -34,7 +34,7 @@ class User {
   }
   Map<String, dynamic> toJson() {
     final Map<String , dynamic> data = new Map<String , dynamic>();
-    data['id']=this.id;
+    data['ID']=this.id;
     data['name']=this.name;
     data['alias']=this.alias;
     data['commits']=this.commits;

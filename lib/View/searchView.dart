@@ -5,6 +5,7 @@ import 'package:to_do_list/View/taskList.dart';
 
 import 'package:to_do_list/controllers/mainController.dart';
 import 'package:get/get.dart';
+import 'package:to_do_list/db/Db_helper.dart';
 import 'package:to_do_list/themes/theme.dart';
 
 
@@ -80,9 +81,9 @@ final TextEditingController searchedtitle=TextEditingController();
                       children: [
                         GestureDetector(
                           onTap: (){
-                            print(index.toString()   + "Tapped");
+                         print(index);
                           },
-                          child: mgTaskTile(_maincontroller.searchlist[index]),
+                          child: mgTaskTile(_maincontroller.searchlist![index]),
                         )
                       ],
                     ),

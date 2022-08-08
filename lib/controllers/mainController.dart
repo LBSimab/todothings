@@ -59,4 +59,29 @@ filtertask(String name){
     print(results.map((e) => e.category));
    searchlist.value=results;
 }
+
+ DeleteTask(Task task){
+  var val =  DBHelper.deleteTask(task);
+  getTasks();
+
+  print(val);
+}
+
+
+    void DeleteUser(User user){
+      var val =  DBHelper.deleteUser(user);
+      print(val);
+    }
+
+
+
+     UpdateUser(User user){
+      var val =  DBHelper.updateUser(user);
+      print(val);
+    }
+    UpdateTask(Task task){
+      var val =  DBHelper.updateTask(task);
+      print(val);
+    }
+
 }

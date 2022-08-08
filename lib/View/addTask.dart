@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_list/controllers/addpageController.dart';
+import 'package:to_do_list/controllers/mainController.dart';
 import 'package:to_do_list/themes/theme.dart';
 import 'package:to_do_list/widgets/button.dart';
 import 'package:to_do_list/widgets/input_field.dart';
@@ -29,6 +30,7 @@ class _addTaskState extends State<addTask> {
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int selectedstep=5;
   final  _taskController = Get.put(TaskController());
+  final  _mainController = Get.put(MainController());
   List<int> stepList=[
     5,
   10,
@@ -201,6 +203,8 @@ color: selectedcolor,
     if(titlecontroller.text.isNotEmpty&&descrcontroller.text.isNotEmpty){
       _addToDB();
       Get.back();
+      _mainController.getTasks();
+
     }else if (titlecontroller.text.isEmpty&&descrcontroller.text.isEmpty){
       Get.snackbar("Required", "All Fields Are Required"
       ,snackPosition: SnackPosition.BOTTOM,

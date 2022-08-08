@@ -33,8 +33,8 @@ class DBHelper {
               "title STRING , description TEXT,"
               "startDate STRING , endDate STRING,"
               "startTime STRING,endTime STRING,"
-              "steps INTEGER , category STRING,"
-              "color INTEGER,step INTEGER,"
+              "reminder STRING , category STRING,"
+              "color INTEGER,done INTEGER,"
               "JoinedUID INTEGER )"
 
 
@@ -72,11 +72,31 @@ class DBHelper {
 
 
 
-
   static Future<List<Map<String , dynamic>>> userquery() async{
     print('user query called');
     return await _db!.query(_usertable);
 
   }
+
+  static  deleteTask(Task task)async{
+    print("delsseteCalled");
+    return  await _db!.delete(_tasktable, where: 'id=?', whereArgs: [task.id]);
+
+  }
+  static  deleteUser(User user)async {
+    print("delsseteCalled");
+    return await _db!.delete(_usertable, where: 'id=?', whereArgs: [user.id]);
+  }
+
+  static  updateUser(User user)async {
+    print("delsseteCalled");
+    return await _db!.update(_usertable,user.toJson() ,where: 'id=?', whereArgs: [user.id]);
+  }
+  static  updateTask(Task task)async {
+    print("delsseteCalled");
+    return await _db!.update(_tasktable,task.toJson() ,where: 'id=?', whereArgs: [task.id]);
+  }
+
+
 
 }

@@ -5,6 +5,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:to_do_list/controllers/addpageController.dart';
+import 'package:to_do_list/controllers/mainController.dart';
 import 'package:to_do_list/models/user_model.dart';
 import 'package:to_do_list/themes/theme.dart';
 import 'package:to_do_list/widgets/button.dart';
@@ -30,10 +31,11 @@ class _adduserState extends State<addUser> {
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
   int selectedstep=5;
   final  _taskController = Get.put(TaskController());
+  final  _mainController = Get.put(MainController());
   List<int> stepList=[
+    0,
     5,
     10,
-    15,
 
   ];
   String selectedcategory="None";
@@ -54,7 +56,7 @@ class _adduserState extends State<addUser> {
           padding: EdgeInsets.only(bottom: 3),
           child: Column(
             children: [
-              Text('Add Users',style: headerStyle,),
+              Text('Add User',style: headerStyle,),
               SizedBox(height: 10,),
               MyInputField(title: '   Name', hint: '  put title here',controller: titlecontroller,),
               MyInputField(title: '   Alias', hint: '  put description here',controller: descrcontroller,),
@@ -70,47 +72,10 @@ class _adduserState extends State<addUser> {
                       ),
 
                     ),
-                  ), Expanded(
-                    child: MyInputField(title: "DeadLine", hint:"   " + DateFormat.yMd().format(endDate),
-                      widget: IconButton(
-                        onPressed: (){
-                          _getDeadLineFromUser(context);
-                        },
-                        icon: Icon(Icons.calendar_today_sharp),
-                      ),
+                  ),
+                ],
+              ),
 
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                      child: MyInputField(
-                        title: "StartTime",
-                        hint:  startTime,
-                        widget:IconButton(
-                          onPressed: (){
-                            _getTimeFromUser(context, isStartTime: true);
-                          },
-                          icon: Icon(Icons.access_time_rounded),
-                        ),
-                      )
-                  ),
-                  Expanded(
-                      child: MyInputField(
-                        title: "EndTime",
-                        hint:  endTime,
-                        widget:IconButton(
-                          onPressed: (){
-                            _getTimeFromUser(context, isStartTime: false);
-                          },
-                          icon: Icon(Icons.access_time_rounded),
-                        ),
-                      )
-                  )
-                ],
-              ),
               MyInputField(title: "Steps", hint: "$selectedstep  ",
                 widget: DropdownButton(
                   icon:Icon(Icons.keyboard_arrow_down_sharp,),
@@ -158,8 +123,8 @@ class _adduserState extends State<addUser> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  _colorPallet(),
-                  myButton(label: "Create Task", onTap: (){validateDate();
+
+                  myButton(label: "Create User", onTap: (){validateDate();
                   })
                 ]
 
@@ -184,9 +149,9 @@ class _adduserState extends State<addUser> {
         user: User(
           about: descrcontroller.text,
           alias: titlecontroller.text,
-          name: endDate.toString(),
+          name: titlecontroller.text,
           commits: selectedstep,
-          role: startTime,
+          role: selectedcategory,
           category: selectedcategory,
 
           startDate: DateFormat.yMd().format(startDate),
@@ -194,13 +159,16 @@ class _adduserState extends State<addUser> {
         )
     );
     print('user id is '+"$value");
-    print(endDate.toString());
+
+
   }
 
   validateDate(){
     if(titlecontroller.text.isNotEmpty&&descrcontroller.text.isNotEmpty){
       _addToDB();
       Get.back();
+      _mainController.getUsers();
+
     }else if (titlecontroller.text.isEmpty&&descrcontroller.text.isEmpty){
       Get.snackbar("Required", "All Fields Are Required"
         ,snackPosition: SnackPosition.BOTTOM,
@@ -246,65 +214,6 @@ class _adduserState extends State<addUser> {
 
   }
 
-  _colorPallet(){
-    return Column(
-
-      children: [Text(style: titleStyle,'Color'),
-        SizedBox(height: 8,),
-        Wrap(children:
-        List<Widget>.generate(
-            3, (int index){
-
-          return GestureDetector(
-            onTap: (){
-              setState((){
-                selectedcolor=index;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8),
-              child: CircleAvatar(
-                radius: 16,
-
-                backgroundColor: index==0?primaryColor:index==1?pinkClr:yelloClr,
-                child: selectedcolor==index?Icon(Icons.done,size: 16,):Container(),
-
-              ),
-            ),
-          );
-        }
-
-
-        )
-
-          ,)
-      ],
-    );
-  }
-  _getTimeFromUser(BuildContext conext ,{required bool isStartTime})async{
-
-    var  pickedTime = await _showTimePicker();
-    String _formatedTime = pickedTime.format(conext);
-    if(pickedTime==null){
-      print("time has been canceled");
-    }
-    else if(isStartTime==true){
-      setState((){
-        startTime = _formatedTime;
-      });
-    }
-    else if (isStartTime==false){
-      setState((){
-        endTime=_formatedTime;
-      });
-    }
-  }
-  _showTimePicker( ){
-    return showTimePicker(context: context, initialTime: TimeOfDay(
-        hour: int.parse(startTime.split(":")[0]),
-        minute: int.parse(startTime.split(":")[1].split(" ")[0])
-    ));
-  }
 
 
 }

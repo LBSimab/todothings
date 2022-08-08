@@ -126,7 +126,7 @@ Text(task!.category.toString(),style: TextStyle(decoration: TextDecoration.under
   
   
 }_showBottomSheet(BuildContext context,Task task,Color bgcolor){
-  Get.bottomSheet(exitBottomSheetDuration: Duration(seconds: 3) ,Container(
+  Get.bottomSheet(exitBottomSheetDuration: Duration(milliseconds: 300) ,Container(
     padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
     height:MediaQuery.of(context).size.height*0.20,
 

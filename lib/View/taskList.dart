@@ -5,6 +5,7 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:get/get.dart';
+import 'package:to_do_list/db/Db_helper.dart';
 import '../controllers/mainController.dart';
 import '../themes/theme.dart';
 import '../widgets/task_tile.dart';
@@ -37,7 +38,7 @@ class taskList extends StatelessWidget {
             itemCount: _mainController.taskList.length,
 
             itemBuilder: (_,index){
-              print(_mainController.taskList.length);
+
               return  AnimationConfiguration.staggeredList(
                 position: index,
                 child: SlideAnimation(
@@ -47,7 +48,7 @@ class taskList extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: (){
-                            print(index.toString()   + "Tapped");
+
                           },
                           child: TaskTile(_mainController.taskList[index]),
                         )
