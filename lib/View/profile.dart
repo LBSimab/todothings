@@ -142,8 +142,7 @@ final _taskController = Get.put(TaskController());
           endTime: "endTime",
           startDate: DateFormat.yMd().format(DateTime.now()),
           startTime: "startTime",
-          steps: 5,
-          step: 0,
+
         )
     );
     print('my id is '+"$value");

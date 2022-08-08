@@ -97,6 +97,14 @@ class DBHelper {
     return await _db!.update(_tasktable,task.toJson() ,where: 'id=?', whereArgs: [task.id]);
   }
 
-
+  static  doneTask(int  id)async {
+    print("delsseteCalled");
+    return await _db!.rawUpdate('''
+    UPDATE task 
+    SET done = ?
+    WHERE id=?
+    
+    ''',[1,id]);
+  }
 
 }

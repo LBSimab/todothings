@@ -39,7 +39,7 @@ class _mgTaskTileState extends State<mgTaskTile> {
 
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
 
-  int selectedstep=5;
+  String selectedstep="SearchOnly";
 
   final  _taskController = Get.put(TaskController());
 
@@ -137,7 +137,7 @@ class _mgTaskTileState extends State<mgTaskTile> {
                       _showBottomSheet(context,widget.task!,_getBGClr(widget.task?.color??0),);
                     },
                     child: Text(
-                      "description",
+                      "Manage",
                       style: GoogleFonts.lato(
                         textStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.w700,color:Get.isDarkMode? Colors.black:Colors.grey[100]),
                       ),
@@ -148,7 +148,6 @@ class _mgTaskTileState extends State<mgTaskTile> {
             ),
             Text(widget.task!.category.toString(),style: TextStyle(decoration: TextDecoration.underline,color: Get.isDarkMode? Colors.black:Colors.grey[100]),),
             SizedBox(width: 40,),
-            CircularPercentIndicator(lineWidth: 6,curve: Curves.elasticIn,radius: 30  ,progressColor: Colors.cyan,percent: 0.1 ,backgroundColor: Get.isDarkMode?Colors.indigo:Colors.blueGrey.shade400,)
 
 
 
@@ -219,7 +218,7 @@ class _mgTaskTileState extends State<mgTaskTile> {
                     }).toList(),
                     onChanged:(String? newValue){
                       setState((){
-                        selectedstep=int.parse(newValue!);
+                        selectedstep=newValue!;
                       });
                     } ,
                   ),
@@ -253,6 +252,7 @@ class _mgTaskTileState extends State<mgTaskTile> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     myButton(label: "Delete", onTap:(){ mainController.DeleteTask(task);mainController.getTasks();Get.back();}),
+                    myButton(label: "Done", onTap:(){ mainController.DoneTask(task.id!);mainController.getTasks();Get.back();}),
                     myButton(label: "Update Task", onTap: (){validateDate(task);
                     ;mainController.getTasks();Get.back();mainController.update(mainController.searchlist);})
                   ]
@@ -289,8 +289,8 @@ class _mgTaskTileState extends State<mgTaskTile> {
           endTime: task.endTime,
           startDate: task.startDate,
           startTime: task.startTime,
-          steps: selectedstep,
-          step: 0,
+          done: 0,
+          reminder: selectedstep ,
           id: task.id
         )
     );

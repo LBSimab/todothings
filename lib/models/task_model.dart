@@ -6,10 +6,10 @@ class Task {
   String? endDate;
   String? startTime;
   String? endTime;
-  int? steps;
+  int? done;
   String? category;
   int? color;
-  int? step;
+  String? reminder;
   int? joinedUID;
 Task({
 
@@ -20,10 +20,10 @@ Task({
   this.endDate,
   this.startTime,
   this.endTime,
-  this.steps,
+  this.done,
   this.category,
   this.color,
-  this.step,
+  this.reminder,
   this.joinedUID,
 
 });
@@ -35,10 +35,10 @@ Task.fromJson(Map<String,dynamic> json) {
   startTime=json['startTime'];
   startDate=json['startDate'];
   endTime=json['endTime'];
-  steps=json['steps'];
+  done=json['done'];
   category=json['category'];
   color=json['color'];
-  step=json['step'];
+  reminder=json['reminder'];
   joinedUID=json['JoinedUID'];
 
 }
@@ -53,8 +53,8 @@ Task.fromJson(Map<String,dynamic> json) {
     data['startTime']=this.startTime;
     data['endTime']=this.endTime;
     data['category']=this.category;
-    data['steps']=this.steps;
-    data['step']=this.step;
+    data['done']=this.done;
+    data['reminder']=this.reminder;
     data['JoinedUID']=this.joinedUID;
 
 

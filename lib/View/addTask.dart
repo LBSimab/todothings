@@ -28,13 +28,12 @@ class _addTaskState extends State<addTask> {
   DateTime endDate = DateTime.now();
   String endTime="9:30 PM";
   String startTime = DateFormat("hh:mm a").format(DateTime.now()).toString();
-  int selectedstep=5;
+  String selectedstep="OnlySearch";
   final  _taskController = Get.put(TaskController());
   final  _mainController = Get.put(MainController());
-  List<int> stepList=[
-    5,
-  10,
-  15,
+  List<String> stepList=[
+"Daily",
+    "Ondate"
 
   ];
   String selectedcategory="None";
@@ -118,7 +117,7 @@ class _addTaskState extends State<addTask> {
                 iconSize: 20,
                 elevation: 4,
                 style: subTitleStyle,
-                items: stepList.map<DropdownMenuItem<String>>((int value){
+                items: stepList.map<DropdownMenuItem<String>>((String value){
                   return DropdownMenuItem<String>(
                     value: value.toString(),
                     child:Text(value.toString()),
@@ -126,7 +125,7 @@ class _addTaskState extends State<addTask> {
                 }).toList(),
                 onChanged:(String? newValue){
                   setState((){
-                    selectedstep=int.parse(newValue!);
+                    selectedstep=newValue!;
                   });
                 } ,
                 ),
@@ -191,8 +190,8 @@ color: selectedcolor,
         endTime: endTime,
         startDate: DateFormat.yMd().format(startDate),
         startTime: startTime,
-        steps: selectedstep,
-        step: 0,
+        reminder: selectedstep,
+        done: 0,
       )
     );
  print('my id is '+"$value");

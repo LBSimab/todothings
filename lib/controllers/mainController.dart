@@ -81,7 +81,12 @@ filtertask(String name){
     }
     UpdateTask(Task task){
       var val =  DBHelper.updateTask(task);
-      print(val);
+        print(val);
     }
+
+    DoneTask(int id )async{
+await DBHelper.doneTask(id);
+    }
+
 
 }
